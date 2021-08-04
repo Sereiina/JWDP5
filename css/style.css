@@ -13,4 +13,49 @@ h6 {
   font-weight: bold;
 }
 
+.wrap-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f3e9f1;
+}
+
+.head-logo-img {
+  width: 42%;
+  margin-left: 5em;
+}
+
+.cart-wrap-nav {
+  margin-right: 5em;
+}
+
+.cart-icon-nav {
+  font-size: 3.5em;
+}
+
+.separation {
+  width: 100%;
+  height: 80px;
+  background-color: white;
+}
+
+.container-pages {
+  width: 100%;
+  height: 100%;
+  background-color: #f3e9f1;
+}
+
+.wrap-articles {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.frame-sell {
+  border: black 1px solid;
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -18,5 +18,41 @@ h6 {
 //Global props
 
 //Nav 
-
+.wrap-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $pink;
+}
+.head-logo-img  {
+    width: 42%;
+    margin-left: $bigMargin;
+}
+.cart-wrap-nav {
+    margin-right: $bigMargin;
+}
+.cart-icon-nav {
+    font-size: 3.5em;
+}
 //article-sell
+.separation {
+    width: 100%;
+    height: 80px;
+    background-color: white;
+}
+.container-pages {
+    width: 100%;
+    height: 100%;
+    background-color: $pink;
+}
+.wrap-articles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.frame-sell {
+    border: black 1px solid;
+}
