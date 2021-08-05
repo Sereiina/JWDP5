@@ -47,7 +47,7 @@ h6 {
   background-color: #f3e9f1;
 }
 
-.wrap-articles {
+#wrap-articles {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
