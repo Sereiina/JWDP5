@@ -6,9 +6,9 @@ function createFrame(data) {
 <div class="article-img"></div>
 <div class="article-description">
 <img class="img-article" src="`+data.imageUrl+`">
-<h2>`+data.name+`</h2>
-<p>`+data.price+`</p>
-<p>`+data.description+`</p>
+<h2 class="name-article">`+data.name+`</h2>
+<p class="price-article">`+data.price+`</p>
+<p class="descrip-article">`+data.description+`</p>
 <!--Recup from JS-->
 </div>
 `;
