@@ -53,10 +53,20 @@ h6 {
   flex-wrap: nowrap;
   align-items: center;
 }
-#wrap-articles .article-description {
+
+.wrapper-art {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
   width: 100%;
   border-radius: 15px 15px 0 0;
+}
+.wrapper-art > a {
+  text-decoration: none;
+  color: black;
 }
 
 .frame-sell {
