@@ -28,13 +28,13 @@ h6 {
 }
 .head-logo-img  {
     width: 42%;
-    margin-left: $bigMargin;
+    margin-left: $smallMargin;
 }
 .cart-wrap-nav {
-    margin-right: $bigMargin;
+    margin-right: $smallMargin;
 }
 .cart-icon-nav {
-    font-size: 3.5em;
+    font-size: 2em;
 }
 //article-sell
 .separation {
@@ -49,11 +49,30 @@ h6 {
 }
 #wrap-articles {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+
+.article-description {
+    background-color: white;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+}
 }
 .frame-sell {
-    border: black 1px solid;
-    width: 15%;
+    padding: 1.5em;
+    width: 60%;
+    
+}
+.img-article {
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+}
+.name-article {
+    font-weight: 600;
+    font-size: 1.8em;
+}
+.price-article,  .descrip-article {
+    font-weight: 500;
+    font-size: 1em;
 }

@@ -3,7 +3,6 @@ let elt = document.getElementById('wrap-articles');
 function createFrame(data) {
 
   let frame = `
-<div class="article-img"></div>
 <div class="article-description">
 <img class="img-article" src="`+data.imageUrl+`">
 <h2 class="name-article">`+data.name+`</h2>
