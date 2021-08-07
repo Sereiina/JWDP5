@@ -8,7 +8,7 @@ function artDescrip(data) {
     </div
 
     <div class="descrip-page-art">
-        <h2>`+data.name+` </h2>
+        <h2>`+data.name+`</h2>
     </div>
 
     <div class="wrap-oranj-button">
@@ -18,7 +18,7 @@ function artDescrip(data) {
     <div class="list-option-page-art">
         <!--list from JS-->
     </div>
-    `
+    `;
 
 }
 

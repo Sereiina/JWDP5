@@ -6,7 +6,6 @@
   "scripts": {
     "sass": "sass --watch ./front/scss/mains.scss:./front/css/style.css"
   },
-  
   "author": "",
   "license": "ISC",
   "dependencies": {
