@@ -1,4 +1,6 @@
 let elt = document.getElementById('wrapper-page-art');
+let params = new URLSearchParams(document.location.search.substring(1));
+let id = params.get("id");
 
 function artDescrip(data) {
 
@@ -29,13 +31,10 @@ function artDescrip(data) {
 }
 
 
-fetch("http://127.0.0.1:3000/api/cameras").then(function (response) { //recup les données au bon endroit
+fetch("http://127.0.0.1:3000/api/cameras/"+id).then(function (response) { //recup les données au bon endroit
   if (response.ok) {
     response.json().then(function (value) {
-      value.forEach(data =>   {  //sert a rien
-         artDescrip(data); 
-      });
-     
+     artDescrip(value);
     });
   }
 });

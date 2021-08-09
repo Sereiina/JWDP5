@@ -4,7 +4,7 @@ function createFrame(data) {
 
   let frame = `
 <div class="wrapper-art">
-<a href="pages-html/page-article.html"> 
+<a href="pages-html/page-article.html?id=`+data._id+`">
 <div class="wrap-img-art">
 <img class="img-article" src="`+data.imageUrl+`">
 </div>
