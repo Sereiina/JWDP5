@@ -9,18 +9,37 @@
     integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<nav>
-    <header>
-        <div class="wrap-nav">
-            <a class="head-logo-wrap" href="/front/index.html">
-                <img class="head-logo-img" src="../../backend/images/orinico-logo.png" alt="">
-            </a>
-            
-            <div class="cart-wrap-nav">
-                <span><i class="fas fa-shopping-cart cart-icon-nav"></i></span>
-            </div>
-        </div>
-    </header>
-</nav>
 <!--on s'en fou de toi page a l...-->
+<body onload="loadCart()">
+    <header>
+        <nav>
+            <div class="wrap-nav">
+                <a class="head-logo-wrap" href="/front/index.html">
+                    <img class="head-logo-img" src="../../backend/images/orinico-logo.png" alt="">
+                </a>
+                
+                <div class="cart-wrap-nav">
+                    <a href="#"><i class="fas fa-shopping-cart cart-icon-nav"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section>
+        <article>
+            <div class="separation"></div>
+            <div class="container-pages">
+                <div class="cart-title">
+                    <h2>Votre panier</h2>
+                </div>
+                <div id="wrap-cart">
+                </div>
+                <div id="cart-article-total">
+                    
+                </div>
+            </div>
+        </article>
+    </section>
+
+</body>
 </html>
+<script src="../js/cart.js"></script>
