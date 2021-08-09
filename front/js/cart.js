@@ -29,33 +29,31 @@ function itemConstructor(cookie) {
 
 
 
-    let cartInfoArticle = "";
     fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response) {
         
         if (response.ok) {
             response.json().then(function (value) {
-                cartInfoArticle = `
+              let  cartInfoArticle = `
                     <div class="cart-article-info">
                         <div class="cart-article-name">
                             <h3> `+ value.name + `</h3>
                         </div>
                         <div class="cart-article-price">
-                            <p> <!--JS--> </p>
+                            <p> `+value.price+` </p>
                         </div>
                     </div>
                 `;
+                let elt = document.getElementById('wrap-cart');
+                const cartNode = document.createElement('div');
+                cartNode.classList.add('cart-article-wrapper');
+                cartNode.innerHTML = cartInfoArticle;
+                elt.appendChild(cartNode);
             });
         }
+        
     });
 
-
-
-
-    let elt = document.getElementById('wrap-cart');
-    const cartNode = document.createElement('div');
-    cartNode.classList.add('cart-article-wrapper');
-    cartNode.innerHTML = cartInfoArticle;
-    elt.appendChild(cartNode);
+    
 }
 
 
