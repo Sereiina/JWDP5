@@ -13,21 +13,35 @@ function addToCart(articleId) {
     document.cookie = id + "=" + newValue + "; SameSite=None; Secure; path=/";
 
 } 
-
+function emptyCart() {
+    let emptyCartHtml = `
+        <div>
+        <p> panier Vide </p>
+        </div>
+    `;
+    let elt = document.getElementById('wrap-cart');
+        const cartNode = document.createElement('div');
+        cartNode.classList.add('cart-article-wrapper');
+        cartNode.innerHTML = emptyCartHtml;
+        elt.appendChild(cartNode);
+}
 function loadCart() {
     allCookies = document.cookie.split('; ');
-    console.log(allCookies);
+    if (allCookies == "") {
+        emptyCart();
+        return;
+    } 
     allCookies.forEach(cookie => {
         itemConstructor(cookie);
     });
+    
 }
 
 function itemConstructor(cookie) {
 
     let cookieItem = cookie.split('=');
     let id = cookieItem[0];
-
-
+	
 
     fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response) {
         
@@ -39,58 +53,45 @@ function itemConstructor(cookie) {
                             <h3> `+ value.name + `</h3>
                         </div>
                         <div class="cart-article-price">
-                            <p> `+value.price+` </p>
+                            <p> `+ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(value.price/100)+` </p>
                         </div>
                     </div>
+                    
+                    <div class="formulaire-order">
+                    <form action="http://127.0.0.1:5500/front/pages-html/commandDone.html" method="POST">
+                        <div>
+                            <label for="name"></label>
+                            <input type="text" name="firstName" placeholder="Nom" required>
+                            <input type="text" name="LastName" placeholder="Prénom" required>
+                        </div>
+                        <div>
+                            <label for="email"></label>
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div>
+                            <label for="adress"></label>
+                            <input type="text" name="address" placeholder="Adresse postale" required>
+                            <input type="text" name="complement" placeholder="Complément d'adresse">
+                        </div>
+                        <div>
+                            <label for="codePostal"></label>
+                            <input type="text" name="city" placeholder="Code Postal" required>
+                            <input type="text" name="city" placeholder="Ville" required>
+                        </div>
+                        <div  class="wrap-oranj-button">
+                        <button href="commandDone.html" class="oranj-button"> Commander </button>
+                        </div>
+                    </form>
+                </div>
+                <a href="commandDone.html"> c'est juste pour nav facilement </a>
                 `;
                 let elt = document.getElementById('wrap-cart');
                 const cartNode = document.createElement('div');
                 cartNode.classList.add('cart-article-wrapper');
                 cartNode.innerHTML = cartInfoArticle;
-                elt.appendChild(cartNode);
+                elt.appendChild(cartNode);				
             });
         }
-        
     });
-
-    
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 5be1ed3f1c9d44000030b061=5; 5be9bc241c9d440000a730e7=2; 5be9c4c71c9d440000a730e9=3
-
-// let cookieInformation =
-
-
-//   <div class="cart-title">
-//                         <h2>Votre panier</h2>
-//                     </div>
-//                     <div class="cart-article-info">
-//                         <div class="cart-article-name">
-//                             <h3> <!--JS--></h3>
-//                         </div>
-//                         <div class="cart-article-price">
-//                             <p> <!--JS--> </p>
-//                         </div>
-//                     </div>
-//                     <div class="cart-article-total">
-//                         <p> Total : <!--JS--> </p>
-//                     </div>
