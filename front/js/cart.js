@@ -1,3 +1,5 @@
+
+
 function addToCart(articleId) {
     console.log(articleId);
     let itemQuantity = "";
@@ -27,13 +29,19 @@ function emptyCart() {
 }
 function loadCart() {
     allCookies = document.cookie.split('; ');
+    let totalPrice = 0;
     if (allCookies == "") {
         emptyCart();
-        return;
-    } 
-    allCookies.forEach(cookie => {
-        itemConstructor(cookie);
-    });
+    } else {
+        drawForm();
+        // additionPrice();
+        allCookies.forEach(cookie => {
+           
+            itemConstructor(cookie).then((value) => {
+                totalPrice += value.price;
+            });
+        });
+    }   
     
 }
 
@@ -43,8 +51,8 @@ function itemConstructor(cookie) {
     let id = cookieItem[0];
 	
 
-    fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response) {
-        
+    return fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response)   {
+      
         if (response.ok) {
             response.json().then(function (value) {
               let  cartInfoArticle = `
@@ -56,7 +64,38 @@ function itemConstructor(cookie) {
                             <p> `+ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(value.price/100)+` </p>
                         </div>
                     </div>
-                    
+                `;
+                
+                let elt = document.getElementById('wrap-cart');
+                const cartNode = document.createElement('div');
+                cartNode.classList.add('cart-article-wrapper');
+                cartNode.innerHTML = cartInfoArticle;
+                elt.appendChild(cartNode);	
+            
+                return value; 
+                
+            });
+        }
+    });
+
+    
+}
+
+// function additionPrice() {
+//     let viewTotal = `
+//     <div class="total-price">
+//         <p> Total : ` +new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(totalPrice += value.price/100)+` </p>
+//     </div>
+//     `;
+//                 let elt = document.getElementById('wrap-price');
+//                 const cartNode = document.createElement('div');
+//                 cartNode.innerHTML = viewTotal;
+//                 elt.appendChild(cartNode);
+// }
+
+
+function drawForm() {
+    let formulaireOrder = `
                     <div class="formulaire-order">
                     <form action="http://127.0.0.1:5500/front/pages-html/commandDone.html" method="POST">
                         <div>
@@ -83,15 +122,12 @@ function itemConstructor(cookie) {
                         </div>
                     </form>
                 </div>
-                <a href="commandDone.html"> c'est juste pour nav facilement </a>
-                `;
-                let elt = document.getElementById('wrap-cart');
-                const cartNode = document.createElement('div');
-                cartNode.classList.add('cart-article-wrapper');
-                cartNode.innerHTML = cartInfoArticle;
-                elt.appendChild(cartNode);				
-            });
-        }
-    });
-}
 
+                
+                <a href="commandDone.html"> c'est juste pour nav facilement </a>
+            `;
+            let elt = document.getElementById('cart-formulaire');
+                const cartNode = document.createElement('div');
+                cartNode.innerHTML = formulaireOrder;
+                elt.appendChild(cartNode);
+}
