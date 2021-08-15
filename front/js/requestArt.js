@@ -21,7 +21,7 @@ function articleConstructor(article) {
 
     <div class="descrip-page-art">
         <h2>`+article.name+`</h2>
-        <p class="price-article">`+article.price+`€</p>
+        <p class="price-article">`+ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(article.price/100)+`</p>
         <p class="descrip-article">`+article.description+`</p>
     </div>
 
