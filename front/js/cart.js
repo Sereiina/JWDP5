@@ -56,14 +56,19 @@ function loadCart() {
     } else {
         drawForm();
         itemsConstructor(allCookies)
+        orderFormHandler();
     }
+    
 }
+
+// création du tableau contenant les id des différents article présent dans le panier
+var articlesIdList = [];
 
 // fonction qui affiche les articles depuis les cookies
 function itemsConstructor(cookies) {
 
     // initialisation du prix total a 0
-    let totalPrice = 0;
+    var totalPrice = 0;
 
     // boucle affichant chaque article et sa quantité présent dans le panier
     // initialisation d'index à 0;
@@ -74,6 +79,11 @@ function itemsConstructor(cookies) {
         const id = cookie[0];                       // récupération de l'id à l'index 0
         const qty = cookie[1];                      // récupération de la quantité à l'index 1
 
+
+
+        
+        //ajout de l'id au tableau afin de l'utiliser lors de l'envoie du formulaire de commande
+        articlesIdList.push(id);
 
         // récupération des données d'un article à partir de son ID
         fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response) {
@@ -95,9 +105,12 @@ function itemsConstructor(cookies) {
             // affichage du prix total si l'index est à sa valeur maximal
             if (index == cookies.length - 1) {
                 totalPriceConstructor(totalPrice);
+                sessionStorage.setItem('totalPrice',totalPrice);
+                
             }
         })
     }
+    
 }
 
 // Fonction qui gère l'affichage du prix total
@@ -150,7 +163,7 @@ function drawForm() {
     // variable contenant le formulaire html à injecter
     let formulaireOrder = `
         <div>
-            <form id="formulaire-order">
+            <form action="commandDone.html" method="POST" id="formulaire-order">
                 <div>
                     <label for="name"></label>
                     <input type="text" id="firstName" name="firstName" placeholder="Nom" required>
@@ -163,7 +176,6 @@ function drawForm() {
                 <div>
                     <label for="adress"></label>
                     <input type="text" id="address" name="address" placeholder="Adresse postale" required>
-                    <input type="text" id="complement" name="complement" placeholder="Complément d'adresse">
                 </div>
                 <div>
                     <label for="codePostal"></label>
@@ -172,13 +184,11 @@ function drawForm() {
                 </div>
                 <div  class="wrap-oranj-button">
                 
-                <input onclick="orderCommand()" type="submit" value="commander">
+                <input type="submit" value="commander">
                 </div>
             </form>
         </div>
-
-    <a href="commandDone.html"> c'est juste pour nav facilement nik</a> 
-            `; //TODO oe tkt le a ça reste pas
+        `; 
     
 
     // récupère l'element conteneur du formulaire
@@ -191,32 +201,75 @@ function drawForm() {
     elt.appendChild(cartNode);
 }
 
-//TODO  EN CHANTIER 
-function orderCommand() {
-     var form = document.getElementById('formulaire-order');
-     formData = new FormData(form);
 
-     for (var [key, value] of formData.entries()) { 
-        console.log(key, value);
-      }
-      let machin = {
-        contact: {
-            firstName: "ada",
-            lastName: "dremah",
-            address: "perdu",
-            city: "lalune",
-            email: "ada@gmail.com"
-        },
-        products: [
-            "5be1ef211c9d44000030b062"
-        ]
+// fonction qui récupère les données du formulaire et les envoies a l'API
+function orderFormHandler() {
+    
+  let form = document.querySelector('form'); // récupère l'élement du formulaire
+  form.addEventListener ('submit', event => { 
+    event.preventDefault();   // évite l'action par défaut du formulaire
+    
+    let data = new FormData(event.target); // récupère les informations contenu dans le formulaire
+
+    // construction des données à envoyer à l'API
+    let orderData = {
+      contact: {
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        address: data.get('address'),
+        city: data.get('city'),
+        email: data.get('email')
+      },
+      products: articlesIdList
     };
-     console.log(formData.entries());
+    deleteCart(articlesIdList); // appel de la fonction permettant de supprimer le panier
+
+    // envoie des données à l'API dans une requête POST
     fetch ("http://127.0.0.1:3000/api/cameras/order/" , {
-        method: "POST" , body: machin
+      method: "POST" , body:  JSON.stringify(orderData), 
+      headers : {
+        'Accept' : 'application/json', 
+        'Content-Type': 'application/json' 
+      }
     }).then((response) => {
-        console.log(response);
+      response.json().then(function (value) {
+        
+        // stockage de order ID & redirection vers le récapitulatif de commande
+        sessionStorage.setItem('orderId', value.orderId);
+        window.open('commandDone.html', '_self');
+        
+      
+      });
     })
+
+  });
 }
 
-// <button onclick="orderCommand()" class="oranj-button"> Commander </button>
+// fonction qui gère l'affiche du récapitulatif de commande
+function CommandDoneConstructor() { 
+  //récupération du total et de l'id de commande depuis le sessionStorage
+  let totalPrice = sessionStorage.getItem('totalPrice');
+  let value = sessionStorage.getItem('orderId');
+
+  let elt = document.getElementById('wrapper-page-order');
+
+  // crée des éléments h2 et y insère l'html contenant le prix et l'id de commande
+  const orderTotalPrice = document.createElement('h2');
+  orderTotalPrice.innerHTML = `Résumer de votre commande :`+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice / 100);
+  elt.appendChild(orderTotalPrice);
+  const orderId = document.createElement('h2');
+  orderId.innerHTML = `identifiant de commande :`+value;
+  elt.appendChild(orderId);
+
+  // efface le sessionStorage
+  sessionStorage.clear();
+  
+
+}
+
+// fonction qui efface la totalité des items du panier
+function deleteCart(idList) {  
+  idList.forEach(id => {
+    document.cookie = id+'=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC'; 
+  });
+}
