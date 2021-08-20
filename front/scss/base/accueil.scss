@@ -13,9 +13,11 @@ h6 {
     font-weight: bold;
 }
 
-//media queries
+
 
 //Global props
+
+
 
 //Nav 
 .wrap-nav {
@@ -25,6 +27,7 @@ h6 {
     align-items: center;
     justify-content: space-between;
     background-color: $pink;
+    
 }
 .head-logo-img  {
     width: 42%;
@@ -35,6 +38,7 @@ h6 {
 }
 .cart-icon-nav {
     font-size: 2em;
+    color: $purple;
 }
 //article-sell
 .separation {
@@ -49,9 +53,10 @@ h6 {
 }
 #wrap-articles {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
 }
 
 .wrapper-art {
@@ -71,8 +76,7 @@ h6 {
 
 .frame-sell {
     padding: 1.5em;
-    width: 60%;
-    
+    width: 28%;
 }
 .img-article {
     width: 100%;
@@ -80,9 +84,27 @@ h6 {
 }
 .name-article {
     font-weight: 600;
-    font-size: 1.8em;
+    font-size: 1.5em;
 }
 .price-article,  .descrip-article {
     font-weight: 500;
     font-size: 1em;
+    text-align:justify;
+}
+.wrap-des-art {
+    padding: 0em 1em 0em 1em;
+}
+
+//media queries
+
+@media screen and  (max-width: 900px) {
+    #wrap-articles {
+        display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    }
+    .frame-sell {
+        width: 60%;
+    }
 }

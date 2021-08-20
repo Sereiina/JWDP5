@@ -8,4 +8,18 @@
 @mixin fTrans {
     transition: $fastTrans;
 }
+//margin
+@mixin leftRightMargin {
+    margin-left:$smallMargin;
+    margin-right: $smallMargin;
+}
 
+//button
+@mixin oranj-button {
+    background-color: $oranj;
+    width: 21.5em;
+    height: 4.5em;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
