@@ -43,7 +43,7 @@ function emptyCart() {
 }
 
 // fonction qui gère l'affichage du panier
-function loadCart() {
+async function loadCart() {
 
     // récupération des cookies de la page
     const allCookies = document.cookie.split('; ');
@@ -56,7 +56,7 @@ function loadCart() {
     } else {
         drawForm();
         itemsConstructor(allCookies)
-        orderFormHandler();
+        await orderFormHandler();
     }
     
 }
@@ -209,7 +209,7 @@ function drawForm() {
 function orderFormHandler() {
     
   const form = document.querySelector('form'); // récupère l'élement du formulaire
-  form.addEventListener ('submit', event => { 
+  form.addEventListener  ( 'submit', async event => {
     event.preventDefault();   // évite l'action par défaut du formulaire
     
     const data = new FormData(event.target); // récupère les informations contenu dans le formulaire
@@ -228,22 +228,18 @@ function orderFormHandler() {
     deleteCart(articlesIdList); // appel de la fonction permettant de supprimer le panier
 
     // envoie des données à l'API dans une requête POST
-    fetch ("http://127.0.0.1:3000/api/cameras/order/" , {
+    const res = await fetch ("http://127.0.0.1:3000/api/cameras/order/" , {
       method: "POST" , body:  JSON.stringify(orderData), 
       headers : {
         'Accept' : 'application/json', 
         'Content-Type': 'application/json' 
       }
-    }).then((response) => {
-      response.json().then(function (value) {
-        
-        // stockage de order ID & redirection vers le récapitulatif de commande
-        sessionStorage.setItem('orderId', value.orderId);
-        window.open('commandDone.html', '_self');
-        
-      
-      });
     })
+
+    //     stockage de order ID & redirection vers le récapitulatif de commande
+    const json = await res.json()
+    sessionStorage.setItem('orderId', json.orderId);
+    window.open('commandDone.html', '_self');
 
   });
 }
