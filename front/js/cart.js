@@ -15,17 +15,17 @@ function addToCart(articleId) {
     }
 
     // ajoute 1 à la quantité déjà présente dans le panier
-    let newValue = parseInt(itemQuantity) + 1
+    const newValue = parseInt(itemQuantity) + 1
 
     // création d'un nouveau cookie à partir de la nouvelle valeur dans le panier
-    document.cookie = id + "=" + newValue + "; SameSite=None; Secure; path=/";
+    document.cookie = `${id}=${newValue}; SameSite=None; Secure; path=/`;
 }
 
 // fonction qui affiche de l'html quand le panier ne contient aucune information
 function emptyCart() {
 
     // variable contenant le html à injecter 
-    let emptyCartHtml = `
+    const emptyCartHtml = `
         <div>
         <p> panier Vide </p>
         </div>
@@ -33,7 +33,7 @@ function emptyCart() {
     
 
     // récupération du wrapper "wrap-cart" contenant les articles du panier
-    let elt = document.getElementById('wrap-cart');
+    const elt = document.getElementById('wrap-cart');
     // crée un élement <div> avec la class "cart-article-wrapper" 
     const cartNode = document.createElement('div');
     cartNode.classList.add('cart-article-wrapper');
@@ -46,7 +46,7 @@ function emptyCart() {
 function loadCart() {
 
     // récupération des cookies de la page
-    let allCookies = document.cookie.split('; ');
+    const allCookies = document.cookie.split('; ');
 
     // affichage du panier
     // si aucun cookie est présent, affichage du panier vide
@@ -117,14 +117,14 @@ function itemsConstructor(cookies) {
 function totalPriceConstructor(total) {
 
     //  variable contenant le html à injecter
-    let viewTotal = `
+    const viewTotal = `
     <div class="total-price">
-        <p> Total : ` + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total / 100) + ` </p>
+        <p> Total : ${ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total / 100) } </p>
     </div>
     `;
 
     //  crée un élement <div> avec la class "wrap-price" 
-    let elt = document.getElementById('wrap-price');
+    const elt = document.getElementById('wrap-price');
     const cartNode = document.createElement('div');
     // injection du html à l'intérieur de l'élément crée et ajout de celui-ci dans le wrapper "" contenu dans elt
     cartNode.innerHTML = viewTotal;
@@ -133,21 +133,24 @@ function totalPriceConstructor(total) {
 
 // Fonction qui affiche un article dans le panier depuis les données qui lui sont transmise
 function cartItemConstructor(item, qty) {
-    let cartItemHTML = `
+
+    const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(item.price / 100 * qty);
+
+    const cartItemHTML = `
             <div class="cart-article-info">
                 <div class="cart-article-name">
-                    <h3> `+ qty+` </h3>
-                    <h3> `+ item.name +`</h3>
+                    <h3> ${ qty } </h3>
+                    <h3> ${ item.name }</h3>
                 </div>
                 <div class="cart-article-price">
-                    <p> `+ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(item.price / 100 * qty) + ` </p>
+                    <p> ${ articleFormatedPrice } </p>
                 </div>
             </div>
         `;
     
 
     // récupération du wrapper "wrap-cart" contenant les articles du panier
-    let elt = document.getElementById('wrap-cart');
+    const elt = document.getElementById('wrap-cart');
 
     //  crée un élement <div> avec la class "cart-article-wrapper" 
     const cartNode = document.createElement('div');
@@ -161,7 +164,7 @@ function cartItemConstructor(item, qty) {
 function drawForm() {
 
     // variable contenant le formulaire html à injecter
-    let formulaireOrder = `
+    const formulaireOrder = `
         <div>
             <form action="commandDone.html" method="POST" id="formulaire-order">
                 <div>
@@ -192,7 +195,7 @@ function drawForm() {
     
 
     // récupère l'element conteneur du formulaire
-    let elt = document.getElementById('cart-formulaire');
+    const elt = document.getElementById('cart-formulaire');
     // crée un élement <div>
     const cartNode = document.createElement('div');
 
@@ -205,14 +208,14 @@ function drawForm() {
 // fonction qui récupère les données du formulaire et les envoies a l'API
 function orderFormHandler() {
     
-  let form = document.querySelector('form'); // récupère l'élement du formulaire
+  const form = document.querySelector('form'); // récupère l'élement du formulaire
   form.addEventListener ('submit', event => { 
     event.preventDefault();   // évite l'action par défaut du formulaire
     
-    let data = new FormData(event.target); // récupère les informations contenu dans le formulaire
+    const data = new FormData(event.target); // récupère les informations contenu dans le formulaire
 
     // construction des données à envoyer à l'API
-    let orderData = {
+    const orderData = {
       contact: {
         firstName: data.get('firstName'),
         lastName: data.get('lastName'),
@@ -248,17 +251,19 @@ function orderFormHandler() {
 // fonction qui gère l'affiche du récapitulatif de commande
 function CommandDoneConstructor() { 
   //récupération du total et de l'id de commande depuis le sessionStorage
-  let totalPrice = sessionStorage.getItem('totalPrice');
-  let value = sessionStorage.getItem('orderId');
+  const totalPrice = sessionStorage.getItem('totalPrice');
+  const value = sessionStorage.getItem('orderId');
 
-  let elt = document.getElementById('wrapper-page-order');
+  const elt = document.getElementById('wrapper-page-order');
+
+  const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice / 100);
 
   // crée des éléments h2 et y insère l'html contenant le prix et l'id de commande
   const orderTotalPrice = document.createElement('h2');
-  orderTotalPrice.innerHTML = `Résumer de votre commande :`+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice / 100);
+  orderTotalPrice.innerHTML = `Résumer de votre commande :${ articleFormatedPrice}`;
   elt.appendChild(orderTotalPrice);
   const orderId = document.createElement('h2');
-  orderId.innerHTML = `identifiant de commande :`+value;
+  orderId.innerHTML = `identifiant de commande :${value}`;
   elt.appendChild(orderId);
 
   // efface le sessionStorage

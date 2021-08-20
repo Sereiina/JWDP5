@@ -1,15 +1,15 @@
 // récupération du wrapper "wrapper-page-art" contenant les différentes informations d'un article
-let elt = document.getElementById('wrapper-page-art');
+const elt = document.getElementById('wrapper-page-art');
 
 // récupération de l'id depuis les paramètres de l'url
-let params = new URLSearchParams(document.location.search.substring(1));
-let id = params.get("id");
+const params = new URLSearchParams(document.location.search.substring(1));
+const id = params.get("id");
 
 // crée une liste d'option au format html
 function lensesOption(lensesData) {
   let lenses ="";
   lensesData.forEach(data => {
-    lenses += `<option value="lentille">`+data+`</option>`
+    lenses += `<option value="lentille">${data}</option>`
   });
   return lenses;
 }
@@ -18,28 +18,30 @@ function lensesOption(lensesData) {
 function articleConstructor(article) { 
 
   // récupération les données des lentilles.
-  let articleLenses = lensesOption(article.lenses);
-
+  const articleLenses = lensesOption(article.lenses);
+  // formatage du prix en euro
+  const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(article.price/100);
   //  variable contenant le html à injecter
-  let articleInformation = `
-  <div>
-      <img class="img-page-art img-article" src="`+article.imageUrl+`">
-  </div
-
-  <div class="descrip-page-art">
-      <h2>`+article.name+`</h2>
-      <p class="price-article">`+ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(article.price/100)+`</p>
-      <p class="descrip-article">`+article.description+`</p>
+  const articleInformation = `
+  <div class="wrap-article-left-side">
+      <div class="wrap-img-article"> 
+          <img src="${article.imageUrl}">
+      </div>
   </div>
-
-  <div class="wrap-oranj-button">
-      <button onclick="addToCart('`+article._id+`')" class="oranj-button">Ajouter au panier</button>
-  </div>
-
-  <div class="list-option-page-art">
-      <label for="lenses-select">Choisir une lentille: </label>
-      <select name="lenses">
-      `+articleLenses+`    
+  <div class="wrap-article-right-side">
+    <a href="panier.html" class="wrap-oranj-button">
+        <button onclick="addToCart('${article._id}')" class="oranj-button">Ajouter au panier</button>
+    </a>
+    <div class="wrap-description-article"> 
+        <h2>${article.name}</h2>
+        <p class="price-article">${articleFormatedPrice}</p>
+        <p class="descrip-article">${article.description}</p>
+    </div>
+    <div class="list-option-article">
+        <label for="lenses-select">Choisir une lentille: </label>
+        <select class="lense-selector" name="lenses">
+        ${articleLenses}    
+    </div>
   </div>
   `;
 
@@ -50,7 +52,6 @@ function articleConstructor(article) {
   articleNode.innerHTML=articleInformation;
   elt.appendChild(articleNode);
 }
-
 
 // récupération des données d'un article à partir de son ID
 fetch("http://127.0.0.1:3000/api/cameras/"+id).then(function (response) { 
