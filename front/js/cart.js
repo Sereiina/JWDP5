@@ -65,7 +65,7 @@ async function loadCart() {
 var articlesIdList = [];
 
 // fonction qui affiche les articles depuis les cookies
-function itemsConstructor(cookies) {
+async function itemsConstructor(cookies) {
 
     // initialisation du prix total a 0
     var totalPrice = 0;
@@ -79,38 +79,30 @@ function itemsConstructor(cookies) {
         const id = cookie[0];                       // récupération de l'id à l'index 0
         const qty = cookie[1];                      // récupération de la quantité à l'index 1
 
-
-
         
-        //ajout de l'id au tableau afin de l'utiliser lors de l'envoie du formulaire de commande
+        //ajout de l'id au tableau afin de l'utiliser lors de l'envoi du formulaire de commande
         articlesIdList.push(id);
 
         // récupération des données d'un article à partir de son ID
-        fetch("http://127.0.0.1:3000/api/cameras/" + id).then(function (response) {
-            if (response.ok) {
-                // renvoi de la promise json de response
-                return response.json();
-            }
-        })
-
-        //création d'une ligne d'article dans le panier
-        .then((data) => {
-
+        const res = await fetch("http://127.0.0.1:3000/api/cameras/" + id);
+        if (res.ok) {
+            // renvoi de la promise json de response
+            const json = await res.json();
+            
             // appel de cartItemConstructor avec les données de data & quantité
-            cartItemConstructor(data, qty);
+            cartItemConstructor(json, qty);
 
             // ajout du prix de l'article multiplier par sa quantité au prix total du panier
-            totalPrice += (data.price * qty);
+            totalPrice += (json.price * qty);
 
             // affichage du prix total si l'index est à sa valeur maximal
             if (index == cookies.length - 1) {
                 totalPriceConstructor(totalPrice);
                 sessionStorage.setItem('totalPrice',totalPrice);
-                
             }
-        })
+        }
+        //création d'une ligne d'article dans le panier
     }
-    
 }
 
 // Fonction qui gère l'affichage du prix total
@@ -204,7 +196,6 @@ function drawForm() {
     elt.appendChild(cartNode);
 }
 
-
 // fonction qui récupère les données du formulaire et les envoies a l'API
 function orderFormHandler() {
     
@@ -236,7 +227,7 @@ function orderFormHandler() {
       }
     })
 
-    //     stockage de order ID & redirection vers le récapitulatif de commande
+    // stockage de order ID & redirection vers le récapitulatif de commande
     const json = await res.json()
     sessionStorage.setItem('orderId', json.orderId);
     window.open('commandDone.html', '_self');
@@ -264,7 +255,6 @@ function CommandDoneConstructor() {
 
   // efface le sessionStorage
   sessionStorage.clear();
-  
 
 }
 

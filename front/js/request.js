@@ -30,13 +30,14 @@ function createFrame(data) {
 }
 
 // récupération des données depuis l'API
-fetch("http://127.0.0.1:3000/api/cameras").then(function (response) {
-  if (response.ok) {
-    response.json().then(function (value) {
-      // appel de la fonction "create-frame" afin de générer chaque article présent dans la réponse de l'API
-      value.forEach(data => {
-        createFrame(data);
-      });
-    });
+async function fetchCameras() {
+  const res = await fetch("http://127.0.0.1:3000/api/cameras");
+  if (res.ok) {
+    const json = await res.json();
+    // appel de la fonction "create-frame" afin de générer chaque article présent dans la réponse de l'API
+    json.forEach(data => {
+      createFrame(data);
+    })
   }
-});
+}
+fetchCameras();
