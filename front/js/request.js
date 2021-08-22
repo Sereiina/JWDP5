@@ -26,7 +26,7 @@ function createFrame(data) {
   frameNode.classList.add('frame-sell');
   // injection du html à l'intérieur de l'élément crée et ajout de celui-ci dans le wrapper "wrap-articles" contenu dans elt
   frameNode.innerHTML=frame;
-  elt.appendChild(frameNode);  
+  elt.appendChild(frameNode);
 }
 
 // récupération des données depuis l'API
@@ -40,4 +40,6 @@ async function fetchCameras() {
     })
   }
 }
+
+//point d'entrée du script
 fetchCameras();

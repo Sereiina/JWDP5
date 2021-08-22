@@ -30,7 +30,6 @@ function emptyCart() {
         <p> panier Vide </p>
         </div>
     `;
-    
 
     // récupération du wrapper "wrap-cart" contenant les articles du panier
     const elt = document.getElementById('wrap-cart');
@@ -94,15 +93,11 @@ async function itemsConstructor(cookies) {
 
             // ajout du prix de l'article multiplier par sa quantité au prix total du panier
             totalPrice += (json.price * qty);
-
-            // affichage du prix total si l'index est à sa valeur maximal
-            if (index == cookies.length - 1) {
-                totalPriceConstructor(totalPrice);
-                sessionStorage.setItem('totalPrice',totalPrice);
-            }
         }
-        //création d'une ligne d'article dans le panier
     }
+    // affichage du prix total
+    totalPriceConstructor(totalPrice);
+    sessionStorage.setItem('totalPrice',totalPrice);
 }
 
 // Fonction qui gère l'affichage du prix total
@@ -158,7 +153,7 @@ function drawForm() {
     // variable contenant le formulaire html à injecter
     const formulaireOrder = `
         <div>
-            <form action="commandDone.html" method="POST" id="formulaire-order">
+            <form id="formulaire-order">
                 <div>
                     <label for="name"></label>
                     <input type="text" id="firstName" name="firstName" placeholder="Nom" required>
@@ -178,7 +173,6 @@ function drawForm() {
                     <input type="text" id="city" name="city" placeholder="Ville" required>
                 </div>
                 <div  class="wrap-oranj-button">
-                
                 <input type="submit" value="commander">
                 </div>
             </form>
@@ -190,7 +184,6 @@ function drawForm() {
     const elt = document.getElementById('cart-formulaire');
     // crée un élement <div>
     const cartNode = document.createElement('div');
-
     // injection du html à l'intérieur de l'élément crée et ajout de celui-ci dans le wrapper contenu dans elt
     cartNode.innerHTML = formulaireOrder;
     elt.appendChild(cartNode);
@@ -200,8 +193,7 @@ function drawForm() {
 function orderFormHandler() {
     
   const form = document.querySelector('form'); // récupère l'élement du formulaire
-  form.addEventListener  ( 'submit', async event => {
-    event.preventDefault();   // évite l'action par défaut du formulaire
+  form.addEventListener ( 'submit', async (event) => {
     
     const data = new FormData(event.target); // récupère les informations contenu dans le formulaire
 
@@ -219,13 +211,16 @@ function orderFormHandler() {
     deleteCart(articlesIdList); // appel de la fonction permettant de supprimer le panier
 
     // envoie des données à l'API dans une requête POST
-    const res = await fetch ("http://127.0.0.1:3000/api/cameras/order/" , {
-      method: "POST" , body:  JSON.stringify(orderData), 
-      headers : {
-        'Accept' : 'application/json', 
-        'Content-Type': 'application/json' 
-      }
-    })
+    const res = await fetch("http://127.0.0.1:3000/api/cameras/order/",
+        {
+            method: "POST",
+            body: JSON.stringify(orderData), 
+            headers : {
+                'Accept' : 'application/json', 
+                'Content-Type': 'application/json' 
+            }
+        }
+    );
 
     // stockage de order ID & redirection vers le récapitulatif de commande
     const json = await res.json()
@@ -249,6 +244,7 @@ function CommandDoneConstructor() {
   const orderTotalPrice = document.createElement('h2');
   orderTotalPrice.innerHTML = `Résumer de votre commande :${ articleFormatedPrice}`;
   elt.appendChild(orderTotalPrice);
+
   const orderId = document.createElement('h2');
   orderId.innerHTML = `identifiant de commande :${value}`;
   elt.appendChild(orderId);

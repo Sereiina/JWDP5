@@ -54,7 +54,6 @@ function articleConstructor(article) {
 }
 
 // récupération des données d'un article à partir de son ID
-
 async function fetchCameraById() {
   const res = await fetch("http://127.0.0.1:3000/api/cameras/"+id);
   // appel de la fonction "articleConstructor" avec les données de l'API
@@ -63,4 +62,5 @@ async function fetchCameraById() {
     articleConstructor(json);
   }
 }
+
 fetchCameraById();
