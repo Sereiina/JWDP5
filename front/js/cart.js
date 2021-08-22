@@ -1,24 +1,19 @@
 // fonction permettant l'ajout d'un article au panier via les cookies
 function addToCart(articleId) {
-    let itemQuantity = "";
-
+    
     // vérifie si l'article est deja présent dans le panier
     // Si le l'article est deja dans le panier, on récupère la quantité déjà présente dans le panier
     // sinon on attribue une valeur par défaut
-    try {
-        itemQuantity = document.cookie                  // récupération des cookies de la page
-            .split('; ')                                // séparation de chaque entrée dans les cookies
-            .find(row => row.startsWith(articleId))     // recherche de l'article avec son ID
-            .split('=')[1];                             // assigne la quantité depuis la valeur après le signe "="
-    } catch (error) {                                   
-        itemQuantity = 0;       
+    let itemQuantity = localStorage.getItem(articleId);
+    if (itemQuantity == null) {
+        itemQuantity = 0;
     }
 
     // ajoute 1 à la quantité déjà présente dans le panier
     const newValue = parseInt(itemQuantity) + 1
 
     // création d'un nouveau cookie à partir de la nouvelle valeur dans le panier
-    document.cookie = `${id}=${newValue}; SameSite=None; Secure; path=/`;
+    localStorage.setItem(articleId, newValue);
 }
 
 // fonction qui affiche de l'html quand le panier ne contient aucune information
@@ -45,45 +40,39 @@ function emptyCart() {
 async function loadCart() {
 
     // récupération des cookies de la page
-    const allCookies = document.cookie.split('; ');
+    const storage = {...localStorage};
 
     // affichage du panier
     // si aucun cookie est présent, affichage du panier vide
     // sinon, affichage des articles présent dans le panier et du formulaire de commande
-    if (allCookies == "") {
+    if (Object.keys(storage).length == 0) {
         emptyCart();
-    } else {
+    }
+    else {
         drawForm();
-        itemsConstructor(allCookies)
+        itemsConstructor(storage)
         await orderFormHandler();
     }
-    
 }
 
 // création du tableau contenant les id des différents article présent dans le panier
 var articlesIdList = [];
 
 // fonction qui affiche les articles depuis les cookies
-async function itemsConstructor(cookies) {
+async function itemsConstructor(storage) {
 
     // initialisation du prix total a 0
     var totalPrice = 0;
 
     // boucle affichant chaque article et sa quantité présent dans le panier
-    // initialisation d'index à 0;
-    // tant que l'index est inférieur à cookies.lenght;
-    // incrémentation de index;
-    for (let index = 0; index < cookies.length; index++) {
-        const cookie = cookies[index].split('=');   // récupération des clés/valeurs d'un cookie
-        const id = cookie[0];                       // récupération de l'id à l'index 0
-        const qty = cookie[1];                      // récupération de la quantité à l'index 1
+    for (const item_id in storage) {
+        const qty = storage[item_id];
 
-        
         //ajout de l'id au tableau afin de l'utiliser lors de l'envoi du formulaire de commande
-        articlesIdList.push(id);
+        articlesIdList.push(item_id);
 
         // récupération des données d'un article à partir de son ID
-        const res = await fetch("http://127.0.0.1:3000/api/cameras/" + id);
+        const res = await fetch("http://127.0.0.1:3000/api/cameras/" + item_id);
         if (res.ok) {
             // renvoi de la promise json de response
             const json = await res.json();
@@ -95,6 +84,7 @@ async function itemsConstructor(cookies) {
             totalPrice += (json.price * qty);
         }
     }
+
     // affichage du prix total
     totalPriceConstructor(totalPrice);
     sessionStorage.setItem('totalPrice',totalPrice);
@@ -208,7 +198,7 @@ function orderFormHandler() {
       },
       products: articlesIdList
     };
-    deleteCart(articlesIdList); // appel de la fonction permettant de supprimer le panier
+    localStorage.clear(); // permet de supprimer le panier
 
     // envoie des données à l'API dans une requête POST
     const res = await fetch("http://127.0.0.1:3000/api/cameras/order/",
@@ -252,11 +242,4 @@ function CommandDoneConstructor() {
   // efface le sessionStorage
   sessionStorage.clear();
 
-}
-
-// fonction qui efface la totalité des items du panier
-function deleteCart(idList) {  
-  idList.forEach(id => {
-    document.cookie = id+'=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC'; 
-  });
 }

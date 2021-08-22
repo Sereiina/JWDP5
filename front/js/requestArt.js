@@ -61,6 +61,9 @@ async function fetchCameraById() {
     const json = await res.json();
     articleConstructor(json);
   }
+  else {
+    window.open('404.html', '_self'); // renvoie une 404
+  }
 }
 
 fetchCameraById();
