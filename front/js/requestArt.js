@@ -29,9 +29,9 @@ function articleConstructor(article) {
       </div>
   </div>
   <div class="wrap-article-right-side">
-    <a href="panier.html" class="wrap-oranj-button">
-        <button onclick="addToCart('${article._id}')" class="oranj-button">Ajouter au panier</button>
-    </a>
+        <button onclick="addToCart('${article._id}')" class="oranj-button">
+          <a href="panier.html">Ajouter au panier <a/>
+        </button>
     <div class="wrap-description-article"> 
         <h2>${article.name}</h2>
         <p class="price-article">${articleFormatedPrice}</p>

@@ -16,7 +16,15 @@ h6 {
 
 
 //Global props
-
+.oranj-button {
+    @include oranj-button;
+    margin-bottom: $smallMargin;
+    > a {
+        font-size: 1.5em;
+        text-decoration: none;
+        color: black;
+    }
+}
 
 
 //Nav 
@@ -53,10 +61,10 @@ h6 {
 }
 #wrap-articles {
     display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .wrapper-art {

@@ -21,8 +21,11 @@ function emptyCart() {
 
     // variable contenant le html à injecter 
     const emptyCartHtml = `
-        <div>
-        <p> panier Vide </p>
+        <div class="empty-cart">
+            <p> Panier vide </p>
+            <button class="oranj-button">
+                <a href="../index.html"> Retourner à l'accueil</a>
+            </button>
         </div>
     `;
 
@@ -114,13 +117,17 @@ function cartItemConstructor(item, qty) {
     const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(item.price / 100 * qty);
 
     const cartItemHTML = `
+            <div class="cart-title">
+                <h2>Votre panier</h2>
+            </div>
             <div class="cart-article-info">
                 <div class="cart-article-name">
                     <h3> ${ qty } </h3>
                     <h3> ${ item.name }</h3>
+                    
                 </div>
                 <div class="cart-article-price">
-                    <p> ${ articleFormatedPrice } </p>
+                    <h3> ${ articleFormatedPrice } </h3>
                 </div>
             </div>
         `;
@@ -142,29 +149,29 @@ function drawForm() {
 
     // variable contenant le formulaire html à injecter
     const formulaireOrder = `
-        <div>
+        <div class="form-wrap">
             <form id="formulaire-order">
-                <div>
+                <div class="form-test">
                     <label for="name"></label>
-                    <input type="text" id="firstName" name="firstName" placeholder="Nom" required>
-                    <input type="text" id="lastName" name="lastName" placeholder="Prénom" required>
+                    <input type="text" class="cart-form-champ" id="firstName" name="firstName" placeholder="Nom" required>
+                    <input type="text" class="cart-form-champ" id="lastName" name="lastName" placeholder="Prénom" required>
                 </div>
-                <div>
+                <div class="form-test">
                     <label for="email"></label>
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                </div>
-                <div>
+                    <input type="email" class="cart-form-champ" id="email" name="email" placeholder="Email" required>
                     <label for="adress"></label>
-                    <input type="text" id="address" name="address" placeholder="Adresse postale" required>
+                    <input type="text" class="cart-form-champ" id="address" name="address" placeholder="Adresse postale" required>
                 </div>
-                <div>
+                
+                <div class="form-test">
                     <label for="codePostal"></label>
-                    <input type="text" id="city" name="city" placeholder="Code Postal" required>
-                    <input type="text" id="city" name="city" placeholder="Ville" required>
+                    <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Code Postal" required>
+                    <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Ville" required>
                 </div>
                 <div  class="wrap-oranj-button">
                 <input type="submit" value="commander">
                 </div>
+                
             </form>
         </div>
         `; 

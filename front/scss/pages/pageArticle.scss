@@ -4,14 +4,10 @@
 .wrap-img-article > img {
     width: 100%;
     border-radius: 1em;
-}
-
-.wrap-oranj-button {
-    order: 3;
+    margin-top: 2em;
 }
 .oranj-button {
-    @include oranj-button;
-    
+    order: 3;
 }
 .wrap-article-right-side {
     display: flex;
@@ -34,7 +30,7 @@
     margin-bottom: 35px;
 }
  .list-option-article {
-    width: 20em;
+    width: 16em;
     margin-bottom: 32px;
  }
  .lense-selector {
@@ -47,8 +43,10 @@
  }
 
  @media screen and  (min-width: 900px) {
-     .wrap-img-article > img {
-         width: 85%;
+     .wrap-img-article > img {  
+        width: 65%;
+        margin-bottom: 35px;
+        margin-top: 0;
      }
      .art-sell {
          display: flex;
@@ -56,4 +54,5 @@
          flex-wrap: nowrap;
          align-items: flex-start;
      }
+     
  }

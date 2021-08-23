@@ -1,0 +1,74 @@
+.container-page {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $pink;
+}
+.container-left {
+    margin-left: $smallMargin;
+    
+}
+.container-right {
+    margin-right: $smallMargin;
+}
+
+.cart-title {
+    margin-left: $smallMargin;
+    
+}
+
+.cart-article-info {
+    display: flex;
+    margin-left: $smallMargin;
+    margin-right: $smallMargin;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: black solid 1px ;
+}
+.cart-article-name {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    > h3 {
+        margin-right: 1em;
+    }
+}
+
+#wrap-price {
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-left: 1.5em;
+}
+
+.total-price {
+    text-align: end;
+    margin-right: 1.5em;
+}
+
+.wrap-oranj-button > input {
+    background-color: $oranj;
+    width: 15.5em;
+    height: 3.5em;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    > p {
+        font-weight: 600;
+        font-size: 1.5em;
+    }
+}
+@media screen and  (max-width: 560px) {
+    .container-page {
+        display: block;
+    }
+}
