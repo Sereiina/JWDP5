@@ -23,9 +23,11 @@ function emptyCart() {
     const emptyCartHtml = `
         <div class="empty-cart">
             <p> Votre panier est vide, retournez à l'accueil ? </p>
-            <button class="oranj-button">
-                <a href="../index.html"> Retourner à l'accueil</a>
-            </button>
+                <a href="../index.html"> 
+                    <button class="oranj-button">
+                        Retourner à l'accueil
+                    </button>
+                </a>
         </div>
     `;
 
@@ -169,9 +171,11 @@ function drawForm() {
                         <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Ville" required>
                     </div>
                 
-                <div  class="wrap-oranj-button wrapper-row">
-                    <input type="submit" href="commandDone.html" value="Commander">
-                </div>
+                <a href="commandDone.html">
+                    <div  class="wrap-oranj-button wrapper-row">
+                        <input type="submit"  value="Commander">
+                    </div>
+                </a>
                 
             </form>
         </div>
