@@ -3,7 +3,6 @@ const elt = document.getElementById('wrap-articles');
 
 // fonction qui affiche un article d'après les données qui lui sont transmise
 function createFrame(data) {
-
   // formatage du prix en euro
   const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(data.price/100);
   // variable contenant le html à injecter

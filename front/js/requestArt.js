@@ -23,26 +23,45 @@ function articleConstructor(article) {
   const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(article.price/100);
   //  variable contenant le html à injecter
   const articleInformation = `
-  <div class="wrap-article-left-side">
-      <div class="wrap-img-article"> 
-          <img src="${article.imageUrl}">
-      </div>
-  </div>
-  <div class="wrap-article-right-side">
-        <button onclick="addToCart('${article._id}')" class="oranj-button">
-          <a href="panier.html">Ajouter au panier <a/>
-        </button>
-    <div class="wrap-description-article"> 
-        <h2>${article.name}</h2>
-        <p class="price-article">${articleFormatedPrice}</p>
-        <p class="descrip-article">${article.description}</p>
+    <div class="wrap-article">
+
+            <div class="wrap-button">
+              <button class="oranj-button">
+                  <a href="../index.html"> Retourner à l'accueil</a>
+              </button>
+
+              <button onclick="addToCart('${article._id}')" class="oranj-button">
+                  <a href="panier.html"> Ajouter au panier </a>
+              </button>
+            </div>
+        
+            <div class="item-center">
+
+
+            <div class="wrap-article-left-side">
+                <div class="wrap-img-article"> 
+                    <img src="${article.imageUrl}">
+                </div>
+            </div>
+
+            <div class="wrap-article-right-side">
+                <div class="wrap-description-article"> 
+                    <h2>${article.name}</h2>
+                    <p class="price-article">${articleFormatedPrice}</p>
+                    <p class="descrip-article">${article.description}</p>
+                </div>
+                <div class="list-option-article">
+                    <label for="lenses-select">Choisir une lentille: </label>
+                    <select class="lense-selector" name="lenses">
+                    ${articleLenses}    
+                </div>
+            </div> 
+
+
+            </div>
+
+  
     </div>
-    <div class="list-option-article">
-        <label for="lenses-select">Choisir une lentille: </label>
-        <select class="lense-selector" name="lenses">
-        ${articleLenses}    
-    </div>
-  </div>
   `;
 
   //  crée un élement <div> avec la class "art-sell" 

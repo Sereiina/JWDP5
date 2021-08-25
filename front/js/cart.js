@@ -1,4 +1,4 @@
-// fonction permettant l'ajout d'un article au panier via les cookies
+// fonction permettant l'ajout d'un article au panier via localStorage
 function addToCart(articleId) {
     
     // vérifie si l'article est deja présent dans le panier
@@ -12,7 +12,7 @@ function addToCart(articleId) {
     // ajoute 1 à la quantité déjà présente dans le panier
     const newValue = parseInt(itemQuantity) + 1
 
-    // création d'un nouveau cookie à partir de la nouvelle valeur dans le panier
+    // ajout au localStorage à partir de la nouvelle valeur dans le panier
     localStorage.setItem(articleId, newValue);
 }
 
@@ -22,7 +22,7 @@ function emptyCart() {
     // variable contenant le html à injecter 
     const emptyCartHtml = `
         <div class="empty-cart">
-            <p> Panier vide </p>
+            <p> Votre panier est vide, retournez à l'accueil ? </p>
             <button class="oranj-button">
                 <a href="../index.html"> Retourner à l'accueil</a>
             </button>
@@ -42,11 +42,11 @@ function emptyCart() {
 // fonction qui gère l'affichage du panier
 async function loadCart() {
 
-    // récupération des cookies de la page
+    // récupération du localStorage de la page
     const storage = {...localStorage};
 
     // affichage du panier
-    // si aucun cookie est présent, affichage du panier vide
+    // si le local storage est vide, affichage du panier vide
     // sinon, affichage des articles présent dans le panier et du formulaire de commande
     if (Object.keys(storage).length == 0) {
         emptyCart();
@@ -61,7 +61,7 @@ async function loadCart() {
 // création du tableau contenant les id des différents article présent dans le panier
 var articlesIdList = [];
 
-// fonction qui affiche les articles depuis les cookies
+// fonction qui affiche les articles depuis le localStorage
 async function itemsConstructor(storage) {
 
     // initialisation du prix total a 0
@@ -117,9 +117,6 @@ function cartItemConstructor(item, qty) {
     const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(item.price / 100 * qty);
 
     const cartItemHTML = `
-            <div class="cart-title">
-                <h2>Votre panier</h2>
-            </div>
             <div class="cart-article-info">
                 <div class="cart-article-name">
                     <h3> ${ qty } </h3>
@@ -151,25 +148,29 @@ function drawForm() {
     const formulaireOrder = `
         <div class="form-wrap">
             <form id="formulaire-order">
-                <div class="form-test">
-                    <label for="name"></label>
-                    <input type="text" class="cart-form-champ" id="firstName" name="firstName" placeholder="Nom" required>
-                    <input type="text" class="cart-form-champ" id="lastName" name="lastName" placeholder="Prénom" required>
-                </div>
-                <div class="form-test">
+
+                    <div class="wrapper-row "> 
+                        <label for="name"></label>
+                        <input type="text" class="cart-form-champ" id="firstName" name="firstName" placeholder="Nom" required>
+                        <input type="text" class="cart-form-champ" id="lastName" name="lastName" placeholder="Prénom" required>
+                    </div>
+               
+                    <div class="wrapper-row ">
                     <label for="email"></label>
                     <input type="email" class="cart-form-champ" id="email" name="email" placeholder="Email" required>
                     <label for="adress"></label>
                     <input type="text" class="cart-form-champ" id="address" name="address" placeholder="Adresse postale" required>
-                </div>
+                    </div> 
+            
                 
-                <div class="form-test">
-                    <label for="codePostal"></label>
-                    <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Code Postal" required>
-                    <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Ville" required>
-                </div>
-                <div  class="wrap-oranj-button">
-                <input type="submit" value="commander">
+                    <div class="wrapper-row"> 
+                        <label for="codePostal"></label>
+                        <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Code Postal" required>
+                        <input type="text" class="cart-form-champ" id="city" name="city" placeholder="Ville" required>
+                    </div>
+                
+                <div  class="wrap-oranj-button wrapper-row">
+                    <input type="submit" href="commandDone.html" value="Commander">
                 </div>
                 
             </form>
@@ -227,7 +228,7 @@ function orderFormHandler() {
   });
 }
 
-// fonction qui gère l'affiche du récapitulatif de commande
+// fonction qui gère l'affichage du récapitulatif de commande
 function CommandDoneConstructor() { 
   //récupération du total et de l'id de commande depuis le sessionStorage
   const totalPrice = sessionStorage.getItem('totalPrice');
@@ -248,5 +249,4 @@ function CommandDoneConstructor() {
 
   // efface le sessionStorage
   sessionStorage.clear();
-
 }
