@@ -8,9 +8,11 @@ function addToCart(articleId) {
     if (itemQuantity == null) {
         itemQuantity = 0;
     }
-
+    
     // ajoute 1 à la quantité déjà présente dans le panier
-    const newValue = parseInt(itemQuantity) + 1
+    const elt = document.getElementById('itemQtySelector');
+    const qty = parseInt(elt.value);
+    const newValue = parseInt(itemQuantity) + qty;
 
     // ajout au localStorage à partir de la nouvelle valeur dans le panier
     localStorage.setItem(articleId, newValue);

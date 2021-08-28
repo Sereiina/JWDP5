@@ -23,45 +23,52 @@ function articleConstructor(article) {
   const articleFormatedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR'}).format(article.price/100);
   //  variable contenant le html à injecter
   const articleInformation = `
-    <div class="wrap-article">
-            <div class="wrap-button">
-              
-                  <a href="../index.html">
-                    <button class="oranj-button">
-                      retourner à l'accueil 
-                    </button>
-                  </a>
+  <div class="wrap-article">
+    <div class="wrap-button">
+        <a href="../index.html">
+            <button class="oranj-button">retourner à l'accueil </button>
+        </a>
+      <a href="panier.html"> 
+        <button onclick="addToCart('${article._id}')" class="oranj-button">Add au panier</button>
+      </a>
+    </div>
+    <div class="item-center">
+      <div class="wrap-article-left-side">
+        <div class="wrap-img-article"> 
+            <img src="${article.imageUrl}">
+        </div>
+      </div>
+      <div class="wrap-article-right-side">
+        <div class="wrap-description-article"> 
+            <h2>${article.name}</h2>
+            <p class="price-article">${articleFormatedPrice}</p>
+            <p class="descrip-article">${article.description}</p>
+        </div>
+          <div class="list-wrap"> 
 
-              <a href="panier.html"> 
-                <button onclick="addToCart('${article._id}')" class="oranj-button">
-                   Add au panier
-                </button>
-              </a>
-              
-            </div>
-    
-            <div class="item-center">
-              <div class="wrap-article-left-side">
-                  <div class="wrap-img-article"> 
-                      <img src="${article.imageUrl}">
-                  </div>
+            <div clas="list-Qty"> 
+                <label for="itemQty" > Quantité : </label>
+                <select id="itemQtySelector"  name="item-select-Qty"> 
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                </select>
               </div>
 
-              <div class="wrap-article-right-side">
-                  <div class="wrap-description-article"> 
-                      <h2>${article.name}</h2>
-                      <p class="price-article">${articleFormatedPrice}</p>
-                      <p class="descrip-article">${article.description}</p>
-                  </div>
-                  <div class="list-option-article">
-                      <label for="lenses-select">Choisir une lentille: </label>
-                      <select class="lense-selector" name="lenses">
-                      ${articleLenses}    
-                  </div>
-              </div> 
+            <div class="list-option-article">
+                <label for="lenses-select">Choisir une lentille: </label>
+                <select class="lense-selector" name="lenses">
+                ${articleLenses}  
+                </select>
             </div>
-
+              
+          </div>
+        </div>
+      </div> 
     </div>
+  </div>
   `;
 
   //  crée un élement <div> avec la class "art-sell" 
@@ -73,7 +80,7 @@ function articleConstructor(article) {
 }
 
 // récupération des données d'un article à partir de son ID
-async function fetchCameraById() {
+async function fetchCameraById(id) {
   const res = await fetch("http://127.0.0.1:3000/api/cameras/"+id);
   // appel de la fonction "articleConstructor" avec les données de l'API
   if (res.ok) {
@@ -85,4 +92,4 @@ async function fetchCameraById() {
   }
 }
 
-fetchCameraById();
+fetchCameraById(id);
