@@ -36,6 +36,13 @@ h6 {
   align-items: center;
 }
 
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
 .wrap-nav {
   display: flex;
   flex-direction: row;
@@ -167,7 +174,7 @@ h6 {
   order: 3;
   width: 100%;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap-reverse;
   align-items: center;
   flex-direction: row;
 }
@@ -210,7 +217,6 @@ h6 {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    flex-wrap: nowrap;
   }
 
   .wrap-img-article > img {
@@ -231,7 +237,6 @@ h6 {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: center;
 }
 
 .container-left {
@@ -255,7 +260,26 @@ h6 {
 }
 
 .cart-title {
+  display: flex;
+  flex-direction: column;
   margin-left: 2em;
+  flex-wrap: nowrap;
+  margin-left: 2em;
+}
+
+.select-qty {
+  border: none;
+  height: 2.5em;
+  width: 2.5em;
+  cursor: pointer;
+  margin-right: 15px;
+  box-shadow: 1px 1px 5px black;
+}
+
+#cart-delete {
+  background-color: #e68a08;
+  border: none;
+  cursor: pointer;
 }
 
 #formulaire-order {
@@ -283,6 +307,7 @@ h6 {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
 }
 .cart-article-name > h3 {
   margin-right: 1em;

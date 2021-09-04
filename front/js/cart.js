@@ -92,10 +92,36 @@ async function itemsConstructor(storage) {
         }
     }
 
+    addArticlesQtyEventHandler();
+
     // affichage du prix total
     totalPriceConstructor(totalPrice);
     sessionStorage.setItem('totalPrice',totalPrice);
 }
+//fonction qui permet de modifier ou effacer la quantitée d'un article
+function addArticlesQtyEventHandler() {
+
+    const elts = document.getElementsByClassName('select-qty');
+
+    for (let i = 0; i < elts.length; i++) {
+        const elt = elts[i];
+        elt.addEventListener('change', (event) => {
+            localStorage.setItem(event.target.id , event.target.value);
+            document.location.reload();
+            if ( event.target.value <= 0 ) {
+                localStorage.removeItem(event.target.id);
+            }
+        });
+    }
+
+}
+
+// fonction qui efface le contenu du panier
+function deleteCart() {
+    localStorage.clear();
+    document.location.reload();
+}
+
 
 // Fonction qui gère l'affichage du prix total
 function totalPriceConstructor(total) {
@@ -123,9 +149,8 @@ function cartItemConstructor(item, qty) {
     const cartItemHTML = `
             <div class="cart-article-info">
                 <div class="cart-article-name">
-                    <h3> ${ qty } </h3>
+                    <input type="number" max="5" value="${qty}" class="select-qty" id="${item._id}" required >
                     <h3> ${ item.name }</h3>
-                    
                 </div>
                 <div class="cart-article-price">
                     <h3> ${ articleFormatedPrice } </h3>
@@ -133,7 +158,6 @@ function cartItemConstructor(item, qty) {
             </div>
         `;
     
-
     // récupération du wrapper "wrap-cart" contenant les articles du panier
     const elt = document.getElementById('wrap-cart');
 
@@ -143,6 +167,7 @@ function cartItemConstructor(item, qty) {
     // injection du html à l'intérieur de l'élément crée et ajout de celui-ci dans le wrapper contenu dans elt
     cartNode.innerHTML = cartItemHTML;
     elt.appendChild(cartNode);
+
 }
 
 // fonction qui gère l'affichage du formulaire de prise de commande
@@ -178,10 +203,12 @@ function drawForm() {
                         <input type="submit"  value="Commander">
                     </div>
                 </a>
-                
-            </form>
+                </form>
+                <a href="../index.html">
+                    <button class="oranj-button">retourner à l'accueil </button>
+                </a
         </div>
-        `; 
+        `;
     
 
     // récupère l'element conteneur du formulaire
@@ -198,6 +225,7 @@ function orderFormHandler() {
     
   const form = document.querySelector('form'); // récupère l'élement du formulaire
   form.addEventListener ( 'submit', async (event) => {
+    event.preventDefault();
     
     const data = new FormData(event.target); // récupère les informations contenu dans le formulaire
 

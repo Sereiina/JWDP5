@@ -31,7 +31,7 @@
     order: 3;
     width: 100%;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap-reverse;
     align-items: center;
     flex-direction: row;
 }
@@ -71,7 +71,7 @@
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-        flex-wrap: nowrap;
+         
     }
      .wrap-img-article > img {  
         width: 65%;
