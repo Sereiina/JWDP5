@@ -93,6 +93,7 @@ h6 {
   background-color: white;
   width: 100%;
   border-radius: 15px 15px 0 0;
+  box-shadow: 1px 1px 6px black;
 }
 .wrapper-art > a {
   text-decoration: none;
@@ -106,6 +107,8 @@ h6 {
 
 .img-article {
   width: 100%;
+  object-fit: cover;
+  height: 200px;
   border-radius: 15px 15px 0 0;
 }
 
@@ -189,6 +192,7 @@ h6 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 35px;
+  box-shadow: 1px 1px 6px black;
 }
 
 .list-option-article {
@@ -290,6 +294,7 @@ h6 {
   border-radius: 1em;
   background-color: white;
   padding: 1em;
+  box-shadow: 1px 1px 6px black;
 }
 
 .cart-article-info {
