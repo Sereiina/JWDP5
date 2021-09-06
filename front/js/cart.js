@@ -262,8 +262,15 @@ function orderFormHandler() {
   });
 }
 
+
 // fonction qui gère l'affichage du récapitulatif de commande
 function CommandDoneConstructor() { 
+
+  if (sessionStorage.getItem("orderId") == null)
+  {
+    window.open("../index.html", "_self");
+  }
+
   //récupération du total et de l'id de commande depuis le sessionStorage
   const totalPrice = sessionStorage.getItem('totalPrice');
   const value = sessionStorage.getItem('orderId');
@@ -280,7 +287,7 @@ function CommandDoneConstructor() {
   const orderId = document.createElement('h2');
   orderId.innerHTML = `identifiant de commande :${value}`;
   elt.appendChild(orderId);
-
+ 
   // efface le sessionStorage
   sessionStorage.clear();
 }
