@@ -270,8 +270,8 @@ function CommandDoneConstructor() {
   {
     window.open("../index.html", "_self");
   }
-
-  //récupération du total et de l'id de commande depuis le sessionStorage
+ 
+//récupération du total et de l'id de commande depuis le sessionStorage
   const totalPrice = sessionStorage.getItem('totalPrice');
   const value = sessionStorage.getItem('orderId');
 
